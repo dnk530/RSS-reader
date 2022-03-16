@@ -7,17 +7,28 @@
 </head>
 
 <body>
-    <div class="container bg-dark min-vh-100">
-        <h1 class="display-3 mb-0 text-white">RSS агрегатор</h1>
+    <section class="container-fluid bg-dark p-5 text-white">
         <div class="row">
-            <div class="col">
-                <input type="text">
-            </div>
-            <div class="col">
-                <button type="submit">Добавить</button>
+            <div class="col-8 mx-auto">
+                <h1 class="display-3 mb-0">RSS reader</h1>
+                <p class="lead">Start reading RSS feeds today easily!</p>
+                <form action="" method="post" class="text-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input id="url-input" type="text" class="form-control w-100" placeholder="ссылка RSS">
+                                <label for="url-input">RSS link</label>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class='h-100 btn btn-lg btn-primary px-sm-5'>Add</button>
+                        </div>
+                    </div>
+                </form>
+                <p class="mt-2 mb-0 text-muted">Try: https://ru.hexlet.io/lessons.rss</p>
             </div>
         </div>
-    </div>
+    </section>
 </body>
 
 <script>
