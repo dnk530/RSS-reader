@@ -4,8 +4,9 @@ install:
 lint:
 	npx eslint .
 
-serve:
-	npm run serve
+develop:
+	npx webpack serve
 
 build:
-	npm run build
+	rm -rf public
+	NODE_ENV=production npx webpack

@@ -31,5 +31,9 @@ jobs:
           make install
           make build
 
-      # - name: Run linter
-      #   run: make lint
+      # Add environment variables
+        env:
+          CI: true
+
+      - name: Run linter
+        run: make lint
