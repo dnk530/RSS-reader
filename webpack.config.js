@@ -14,6 +14,8 @@ const config = {
   devServer: {
     open: true,
     host: 'localhost',
+    hot: true,
+    watchFiles: ['src/**/*.js', '*.html'],
   },
   plugins: [
     new HtmlWebpackPlugin({
