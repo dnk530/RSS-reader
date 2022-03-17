@@ -17,6 +17,7 @@ const watchedState = onChange({
     case 'rssForm.isValid':
       if (!value) {
         formElement.elements.url.classList.add('is-invalid');
+        feedbackElement.textContent = watchedState.rssForm.errors.join(' ');
       }
       if (value) {
         formElement.elements.url.classList.remove('is-invalid');
@@ -24,9 +25,6 @@ const watchedState = onChange({
         formElement.elements.url.focus();
         formElement.elements.url.value = '';
       }
-      break;
-    case 'rssForm.Errors':
-      feedbackElement.textContent = value.join(' ');
       break;
     default:
       break;
@@ -40,13 +38,13 @@ const validateURL = (url) => {
     .notOneOf(watchedState.feedList, 'This RSS has been already added');
   urlSchema.validate(url)
     .then(() => {
-      watchedState.rssForm.isValid = true;
       watchedState.rssForm.errors = [];
+      watchedState.rssForm.isValid = true;
       watchedState.feedList.push(url);
     })
     .catch((e) => {
-      watchedState.rssForm.isValid = false;
       watchedState.rssForm.errors = e.errors;
+      watchedState.rssForm.isValid = false;
       throw new Error(e);
     });
 };
