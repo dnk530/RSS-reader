@@ -2,8 +2,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { string } from 'yup';
 import onChange from 'on-change';
 
-const formElement = document.querySelector('#rss-form');
-const feedbackElement = document.querySelector('.feedback');
+const elements = {
+  form: document.querySelector('form'),
+  input: document.querySelector('#url-input'),
+  feedback: document.querySelector('.feedback'),
+};
 
 const watchedState = onChange({
   feedList: [],
@@ -15,15 +18,15 @@ const watchedState = onChange({
 }, (path, value) => {
   switch (path) {
     case 'rssForm.isValid':
+      elements.input.classList.remove('is-invalid');
+      elements.feedback.textContent = '';
       if (!value) {
-        formElement.elements.url.classList.add('is-invalid');
-        feedbackElement.textContent = watchedState.rssForm.errors.join(' ');
+        elements.input.classList.add('is-invalid');
+        elements.feedback.textContent = watchedState.rssForm.errors.join(' ');
       }
       if (value) {
-        formElement.elements.url.classList.remove('is-invalid');
-        feedbackElement.textContent = '';
-        formElement.elements.url.focus();
-        formElement.elements.url.value = '';
+        elements.input.focus();
+        elements.input.value = '';
       }
       break;
     default:
@@ -49,7 +52,7 @@ const validateURL = (url) => {
     });
 };
 
-formElement.addEventListener('submit', (e) => {
+elements.form.addEventListener('submit', (e) => {
   e.preventDefault();
   const formData = new FormData(e.target);
   const url = formData.get('url');
