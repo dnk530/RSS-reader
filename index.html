@@ -12,11 +12,12 @@
             <div class="col-8 mx-auto">
                 <h1 class="display-3 mb-0">RSS reader</h1>
                 <p class="lead">Start reading RSS feeds today easily!</p>
-                <form action="" method="post" class="text-body">
+                <form id="rss-form" class="text-body">
                     <div class="row">
                         <div class="col">
                             <div class="form-floating">
-                                <input id="url-input" type="text" class="form-control w-100" placeholder="RSS link">
+                                <input id="url-input" autofocus required type="text" name="url"
+                                    class="form-control w-100" autocomplete="off" placeholder="RSS link">
                                 <label for="url-input">RSS link</label>
                             </div>
                         </div>
@@ -26,6 +27,7 @@
                     </div>
                 </form>
                 <p class="mt-2 mb-0 text-muted">Try: https://ru.hexlet.io/lessons.rss</p>
+                <p class="feedback m-0 position-absolute small text-danger"></p>
             </div>
         </div>
     </section>
