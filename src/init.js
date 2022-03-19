@@ -1,8 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { string, setLocale } from 'yup';
-import onChange from 'on-change';
 import i18next from 'i18next';
-import render from './view';
+import initializeWatcher from './view';
 import en from './locales/en';
 
 export default () => {
@@ -29,7 +28,8 @@ export default () => {
       feeds: [],
       posts: [],
     };
-    const state = onChange(stateInit, render(elements));
+
+    const state = initializeWatcher(stateInit, elements);
 
     setLocale({
       mixed: {
