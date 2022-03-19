@@ -9,25 +9,27 @@ const elements = {
 };
 
 const watchedState = onChange({
-  feedList: [],
-  rssForm: {
-    url: null,
-    isValid: true,
+  form: {
+    state: 'filling',
     errors: [],
   },
+  feeds: [],
+  posts: [],
 }, (path, value) => {
   switch (path) {
-    case 'rssForm.isValid':
-      elements.input.classList.remove('is-invalid');
-      elements.feedback.textContent = '';
-      if (!value) {
+    case 'form.state':
+      if (value === 'invalid') {
         elements.input.classList.add('is-invalid');
-        elements.feedback.textContent = watchedState.rssForm.errors.join(' ');
       }
-      if (value) {
+      if (value === 'downloading') {
+        elements.input.classList.remove('is-invalid');
+        elements.feedback.textContent = '';
         elements.input.focus();
         elements.input.value = '';
       }
+      break;
+    case 'form.errors':
+      elements.feedback.textContent = value.toString();
       break;
     default:
       break;
@@ -38,16 +40,17 @@ const validateURL = (url) => {
   const urlSchema = string()
     .required()
     .url('Must be valid url')
-    .notOneOf(watchedState.feedList, 'This RSS has been already added');
+    .notOneOf(watchedState.feeds, 'This RSS has been already added');
+
   urlSchema.validate(url)
     .then(() => {
-      watchedState.rssForm.errors = [];
-      watchedState.rssForm.isValid = true;
-      watchedState.feedList.push(url);
+      watchedState.form.errors = [];
+      watchedState.feeds.push(url);
+      watchedState.form.state = 'downloading';
     })
     .catch((e) => {
-      watchedState.rssForm.errors = e.errors;
-      watchedState.rssForm.isValid = false;
+      watchedState.form.errors = e.errors;
+      watchedState.form.state = 'invalid';
       throw new Error(e);
     });
 };
