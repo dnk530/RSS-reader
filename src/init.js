@@ -1,8 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { string, setLocale } from 'yup';
 import i18next from 'i18next';
+import axios from 'axios';
 import initializeWatcher from './view';
 import en from './locales/en';
+import parseXML from './parser';
 
 export default () => {
   const i18nextInstance = i18next.createInstance();
@@ -40,18 +42,21 @@ export default () => {
       },
     });
 
-    const validateURL = (url) => {
+    const validateURL = (str) => {
       const urlSchema = string()
         .required()
         .url()
         .notOneOf(state.feeds);
 
-      urlSchema.validate(url)
+      urlSchema.validate(str)
         .then(() => {
           state.form.errors = [];
-          state.feeds.push(url);
+          state.feeds.push(str);
           state.form.state = 'downloading';
+          return str;
         })
+        .then((url) => axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`))
+        .then((res) => parseXML(res.data.contents))
         .catch((e) => {
           state.form.errors = e.errors;
           state.form.state = 'invalid';
@@ -62,8 +67,8 @@ export default () => {
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
-      const url = formData.get('url');
-      validateURL(url);
+      const userInput = formData.get('url');
+      validateURL(userInput);
     });
   });
 };
