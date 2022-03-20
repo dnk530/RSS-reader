@@ -25,6 +25,11 @@ export default (stateInit, elements, i18nextInstance) => {
           feedbackElement.classList.remove('text-danger');
           feedbackElement.classList.add('text-success');
         }
+        if (value === 'download error') {
+          feedbackElement.classList.remove('text-success');
+          feedbackElement.classList.add('text-danger');
+          feedbackElement.textContent = i18nextInstance.t('networkError');
+        }
         break;
       case 'form.errors':
         feedbackElement.classList.remove('text-success');

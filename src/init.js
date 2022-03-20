@@ -56,17 +56,18 @@ export default () => {
           state.form.state = 'downloading';
           return str;
         })
+        .catch((e) => {
+          state.form.errors = e.errors;
+          state.form.state = 'invalid';
+          throw new Error(e);
+        })
         .then((url) => axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`))
         .then((res) => {
           state.form.state = 'download successful';
           return parseXML(res.data.contents);
         })
-        .catch((e) => {
-          console.log('catched errors');
-          console.log(e);
-          state.form.errors = e.errors;
-          state.form.state = 'invalid';
-          throw new Error(e);
+        .catch(() => {
+          state.form.state = 'download error';
         });
     };
 
