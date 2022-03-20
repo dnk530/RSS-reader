@@ -20,6 +20,7 @@ export default () => {
       form: document.querySelector('form'),
       input: document.querySelector('#url-input'),
       feedback: document.querySelector('.feedback'),
+      button: document.querySelector('form button[type="submit"]'),
     };
 
     const stateInit = {
@@ -31,7 +32,7 @@ export default () => {
       posts: [],
     };
 
-    const state = initializeWatcher(stateInit, elements);
+    const state = initializeWatcher(stateInit, elements, i18nextInstance);
 
     setLocale({
       mixed: {
@@ -56,8 +57,13 @@ export default () => {
           return str;
         })
         .then((url) => axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`))
-        .then((res) => parseXML(res.data.contents))
+        .then((res) => {
+          state.form.state = 'download successful';
+          return parseXML(res.data.contents);
+        })
         .catch((e) => {
+          console.log('catched errors');
+          console.log(e);
           state.form.errors = e.errors;
           state.form.state = 'invalid';
           throw new Error(e);

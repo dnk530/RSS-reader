@@ -1,9 +1,10 @@
 import onChange from 'on-change';
 
-export default (stateInit, elements) => {
+export default (stateInit, elements, i18nextInstance) => {
   const state = onChange(stateInit, (path, value) => {
     const feedbackElement = elements.feedback;
     const inputElement = elements.input;
+    const submitButton = elements.button;
     switch (path) {
       case 'form.state':
         if (value === 'invalid') {
@@ -12,11 +13,22 @@ export default (stateInit, elements) => {
         if (value === 'downloading') {
           inputElement.classList.remove('is-invalid');
           feedbackElement.textContent = '';
-          elements.input.focus();
+          inputElement.setAttribute('readonly', true);
+          submitButton.setAttribute('disabled', '');
+        }
+        if (value === 'download successful') {
+          inputElement.removeAttribute('readonly');
           inputElement.value = '';
+          elements.input.focus();
+          submitButton.removeAttribute('disabled');
+          feedbackElement.textContent = i18nextInstance.t('successfulDownload');
+          feedbackElement.classList.remove('text-danger');
+          feedbackElement.classList.add('text-success');
         }
         break;
       case 'form.errors':
+        feedbackElement.classList.remove('text-success');
+        feedbackElement.classList.add('text-danger');
         feedbackElement.textContent = value.toString();
         break;
       default:
