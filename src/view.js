@@ -26,9 +26,16 @@ export default (stateInit, elements, i18nextInstance) => {
           feedbackElement.classList.add('text-success');
         }
         if (value === 'download error') {
+          inputElement.removeAttribute('readonly');
           feedbackElement.classList.remove('text-success');
           feedbackElement.classList.add('text-danger');
+          submitButton.removeAttribute('disabled');
           feedbackElement.textContent = i18nextInstance.t('networkError');
+        }
+        if (value === 'invalid rss') {
+          feedbackElement.classList.remove('text-success');
+          feedbackElement.classList.add('text-danger');
+          feedbackElement.textContent = i18nextInstance.t('invalidRss');
         }
         break;
       case 'form.errors':

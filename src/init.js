@@ -6,6 +6,8 @@ import initializeWatcher from './view';
 import en from './locales/en';
 import parseXML from './parser';
 
+const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
+
 export default () => {
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
@@ -47,23 +49,30 @@ export default () => {
       const urlSchema = string()
         .required()
         .url()
-        .notOneOf(state.feeds);
+        .notOneOf(state.feeds.map((feed) => feed.url));
 
       urlSchema.validate(str)
         .then(() => {
           state.form.errors = [];
-          state.feeds.push(str);
           state.form.state = 'downloading';
           return str;
         })
-        .then((url) => axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${url}`))
+        .then((url) => axios.get(`${proxyUrl}${url}`))
         .then((res) => {
           state.form.state = 'download successful';
           return parseXML(res.data.contents);
         })
+        .then(([feed, items]) => {
+          state.feeds.push({ ...feed, url: str });
+          state.posts.push(...items);
+        })
         .catch((e) => {
           if (e.message === 'Network Error') {
             state.form.state = 'download error';
+            throw new Error(e);
+          }
+          if (e.message === 'invalidRss') {
+            state.form.state = 'invalid rss';
             throw new Error(e);
           }
           state.form.errors = e.errors;
