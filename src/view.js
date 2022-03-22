@@ -1,10 +1,51 @@
 import onChange from 'on-change';
 
+const createCardElement = (title) => {
+  const cardElement = document.createElement('div');
+  cardElement.classList.add('card', 'border-0');
+  cardElement.innerHTML = `<div class="card-body">
+      <h2 class="card-title h4">${title}</h2></div>`;
+  return cardElement;
+};
+
+const createPostsList = (value) => {
+  const ulElement = document.createElement('ul');
+  ulElement.classList.add('list-group', 'border-0', 'rounded-0');
+
+  const liElements = value.map(({ postId, link, title }) => {
+    const liElement = document.createElement('li');
+    liElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0');
+    liElement.innerHTML = `
+          <a href="${link}" class="fw-bold" data-post-id="${postId}">${title}</a>
+          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId}">View</button>`;
+    return liElement;
+  });
+  ulElement.append(...liElements);
+  return ulElement;
+};
+
+const createFeedsList = (value) => {
+  const liElements = value.map(({ feedTitle, feedDescription }) => {
+    const liElement = document.createElement('li');
+    liElement.classList.add('list-group-item', 'border-0');
+    liElement.innerHTML = `<h3 class="h6 m-0">${feedTitle}</h3>
+    <p class="m-0 small text-black-50">${feedDescription}</p>`;
+    return liElement;
+  });
+
+  const ulElement = document.createElement('ul');
+  ulElement.classList.add('list-group', 'border-0', 'rounded-0');
+  ulElement.append(...liElements);
+  return ulElement;
+};
+
 export default (stateInit, elements, i18nextInstance) => {
   const state = onChange(stateInit, (path, value) => {
     const feedbackElement = elements.feedback;
     const inputElement = elements.input;
     const submitButton = elements.button;
+    const feedsElement = elements.feeds;
+    const postsElement = elements.posts;
     switch (path) {
       case 'form.state':
         if (value === 'invalid') {
@@ -43,6 +84,22 @@ export default (stateInit, elements, i18nextInstance) => {
         feedbackElement.classList.add('text-danger');
         feedbackElement.textContent = value.toString();
         break;
+      case 'feeds': {
+        feedsElement.innerHTML = '';
+        const feedsListElement = createFeedsList(value);
+        const cardElement = createCardElement('Feeds');
+        cardElement.appendChild(feedsListElement);
+        feedsElement.appendChild(cardElement);
+        break;
+      }
+      case 'posts': {
+        postsElement.innerHTML = '';
+        const cardElement = createCardElement('Posts');
+        const postsListElement = createPostsList(value);
+        cardElement.appendChild(postsListElement);
+        postsElement.appendChild(cardElement);
+        break;
+      }
       default:
         break;
     }

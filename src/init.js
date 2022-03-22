@@ -23,6 +23,8 @@ export default () => {
       input: document.querySelector('#url-input'),
       feedback: document.querySelector('.feedback'),
       button: document.querySelector('form button[type="submit"]'),
+      feeds: document.querySelector('[content-id="feeds"]'),
+      posts: document.querySelector('[content-id="posts"]'),
     };
 
     const stateInit = {
@@ -63,8 +65,8 @@ export default () => {
           return parseXML(res.data.contents);
         })
         .then(([feed, items]) => {
-          state.feeds.push({ ...feed, url: str });
-          state.posts.push(...items);
+          state.feeds.unshift({ ...feed, url: str });
+          state.posts.unshift(...items);
         })
         .catch((e) => {
           if (e.message === 'Network Error') {

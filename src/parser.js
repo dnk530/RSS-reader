@@ -9,16 +9,17 @@ export default (xmlString) => {
       const feedTitle = parsedData.querySelector('channel title').textContent;
       const feedDescription = parsedData.querySelector('channel description').textContent;
       const feedId = Date.now();
-      const itemElements = parsedData.querySelectorAll('item');
-      const items = new Array(...itemElements).map((item) => {
+      const postsElements = parsedData.querySelectorAll('item');
+      const posts = new Array(...postsElements).map((item) => {
         const title = item.querySelector('title').textContent;
         const desc = item.querySelector('description').textContent;
         const link = item.querySelector('link').textContent;
+        const postId = Date.now() * Math.random();
         return {
-          title, desc, link, feedId,
+          postId, title, desc, link, feedId,
         };
       });
-      resolve([{ feedTitle, feedDescription, feedId }, items]);
+      resolve([{ feedTitle, feedDescription, feedId }, posts]);
     }
   });
 };
