@@ -5,6 +5,7 @@ import axios from 'axios';
 import initializeWatcher from './view';
 import en from './locales/en';
 import parseXML from './parser';
+import checkUpdates from './updater';
 
 const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 
@@ -59,7 +60,7 @@ export default () => {
           state.form.state = 'downloading';
           return str;
         })
-        .then((url) => axios.get(`${proxyUrl}${url}`))
+        .then((url) => axios.get(`${proxyUrl}${encodeURIComponent(url)}`))
         .then((res) => {
           state.form.state = 'download successful';
           return parseXML(res.data.contents);
@@ -67,6 +68,10 @@ export default () => {
         .then(([feed, items]) => {
           state.feeds.unshift({ ...feed, url: str });
           state.posts.unshift(...items);
+          return Promise.resolve();
+        })
+        .then(() => {
+          checkUpdates(str, 5000, state);
         })
         .catch((e) => {
           if (e.message === 'Network Error') {
