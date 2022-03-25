@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { string, setLocale } from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';

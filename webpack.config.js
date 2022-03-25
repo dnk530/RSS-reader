@@ -1,15 +1,14 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(process.cwd(), 'public'),
   },
   devServer: {
     open: true,
@@ -35,18 +34,37 @@ const config = {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.m?js$/,
+        exclude: /(node_modules|bower_components)/,
+        resolve: {
+          fullySpecified: false,
+        },
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
 
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
+  resolve: {
+    extensions: ['', '.js', '.mjs'],
+    fullySpecified: false,
+    alias: {
+      src: path.resolve(process.cwd(), './src'),
+      updater: path.resolve(process.cwd(), './src/updater.js'),
+    },
+  },
 };
 
-module.exports = () => {
+export default () => {
   if (isProduction) {
     config.mode = 'production';
-
-    config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
   } else {
     config.mode = 'development';
   }
