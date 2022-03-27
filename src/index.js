@@ -1,5 +1,5 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as runApp from './init';
+import run from './init';
 
-runApp();
+run();
