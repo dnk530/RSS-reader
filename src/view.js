@@ -17,7 +17,7 @@ const createPostsList = (value) => {
     liElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0');
     liElement.innerHTML = `
           <a href="${link}" class="fw-bold" data-post-id="${postId}" target="_blank" rel="noopener noreferrer">${title}</a>
-          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId} data-bs-toggle="modal" data-bs-target="#modal"">View</button>`;
+          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId}" data-bs-toggle="modal" data-bs-target="#modal">View</button>`;
     return liElement;
   });
   ulElement.append(...liElements);
@@ -39,6 +39,20 @@ const createFeedsList = (value) => {
   return ulElement;
 };
 
+const updateModal = (modal, title, description, link) => {
+  const { title: titleElement, body: bodyElement, button: fullArticleButton } = modal;
+  titleElement.textContent = title;
+  bodyElement.textContent = description;
+  fullArticleButton.href = link;
+};
+
+const updateReadPosts = (postsElement, readIds) => {
+  const links = new Array(...postsElement.querySelectorAll('a'))
+    .filter((link) => readIds.has(link.dataset.postId));
+  links.forEach((link) => link.classList.remove('fw-bold'));
+  links.forEach((link) => link.classList.add('fw-normal', 'link-secondary'));
+};
+
 export default (stateInit, elements, i18nextInstance) => {
   const state = onChange(stateInit, (path, value) => {
     const feedbackElement = elements.feedback;
@@ -46,6 +60,7 @@ export default (stateInit, elements, i18nextInstance) => {
     const submitButton = elements.button;
     const feedsElement = elements.feeds;
     const postsElement = elements.posts;
+    const { modal } = elements;
     switch (path) {
       case 'form.state':
         if (value === 'invalid') {
@@ -96,8 +111,22 @@ export default (stateInit, elements, i18nextInstance) => {
         postsElement.innerHTML = '';
         const cardElement = createCardElement('Posts');
         const postsListElement = createPostsList(value);
+
+        postsListElement.addEventListener('click', (e) => {
+          if (e.target.nodeName === 'BUTTON' || e.target.nodeName === 'A') {
+            const targetId = (e.target.dataset.postId);
+            state.ui.readPostsIds.add(targetId);
+            const { title, desc, link } = state.posts.find((post) => post.postId === targetId);
+            updateModal(modal, title, desc, link);
+          }
+        });
         cardElement.appendChild(postsListElement);
         postsElement.appendChild(cardElement);
+        updateReadPosts(postsElement, state.ui.readPostsIds);
+        break;
+      }
+      case 'ui.readPostsIds': {
+        updateReadPosts(postsElement, value);
         break;
       }
       default:

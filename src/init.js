@@ -25,6 +25,11 @@ export default () => {
       button: document.querySelector('form button[type="submit"]'),
       feeds: document.querySelector('[content-id="feeds"]'),
       posts: document.querySelector('[content-id="posts"]'),
+      modal: {
+        title: document.querySelector('.modal-title'),
+        body: document.querySelector('.modal-body'),
+        button: document.querySelector('.full-article'),
+      },
     };
 
     const stateInit = {
@@ -34,6 +39,9 @@ export default () => {
       },
       feeds: [],
       posts: [],
+      ui: {
+        readPostsIds: new Set(),
+      },
     };
 
     const state = initializeWatcher(stateInit, elements, i18nextInstance);
