@@ -2,20 +2,19 @@ import { string, setLocale } from 'yup';
 import i18next from 'i18next';
 import axios from 'axios';
 import initializeWatcher from './view';
-import en from './locales/en';
 import parseXML from './parser';
 import checkUpdates from './updater';
+import resources from './locales/index';
 
 const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
+const defaultLng = 'ru';
 
 export default () => {
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
-    lng: 'en',
+    lng: defaultLng,
     debug: true,
-    resources: {
-      en,
-    },
+    resources,
 
   }).then(() => {
     const elements = {
@@ -94,7 +93,7 @@ export default () => {
           throw new Error(e);
         });
     };
-
+    elements.button.textContent = i18nextInstance.t('add');
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
