@@ -13,7 +13,7 @@ const config = {
     open: true,
     host: 'localhost',
     hot: true,
-    watchFiles: ['src/**/*.js', '*.html'],
+    watchFiles: ['src/**/*.js', '*.html', '*.scss'],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -33,6 +33,18 @@ const config = {
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(scss)$/,
+        use: [{
+          loader: 'style-loader', // inject CSS to page
+        }, {
+          loader: 'css-loader', // translates CSS into CommonJS modules
+        }, {
+          loader: 'postcss-loader', // Run postcss actions
+        }, {
+          loader: 'sass-loader', // compiles Sass to CSS
+        }],
       },
       {
         test: /\.m?js$/,
