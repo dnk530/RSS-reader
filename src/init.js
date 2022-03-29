@@ -93,6 +93,7 @@ export default () => {
           throw new Error(e);
         });
     };
+
     elements.button.textContent = i18nextInstance.t('add');
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();

@@ -6,7 +6,7 @@
     <title>RSS reader</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -23,36 +23,41 @@
             </div>
         </div>
     </div>
-    <section class="container-fluid bg-dark p-5 text-white">
-        <div class="row">
-            <div class="col-8 mx-auto">
-                <h1 class="display-3 mb-0">RSS reader</h1>
-                <p class="lead">Start reading RSS feeds today easily!</p>
-                <form id="rss-form" class="text-body">
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-floating">
-                                <input id="url-input" autofocus required type="text" name="url"
-                                    class="form-control w-100" autocomplete="off" placeholder="RSS link">
-                                <label for="url-input">RSS link</label>
+    <main class="flex-grow-1">
+        <section class="container-fluid bg-dark p-5 text-white">
+            <div class="row">
+                <div class="col-8 mx-auto">
+                    <h1 class="display-3 mb-0">RSS reader</h1>
+                    <p class="lead">Start reading RSS feeds today easily!</p>
+                    <form id="rss-form" class="text-body">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input id="url-input" autofocus required type="text" name="url"
+                                        class="form-control w-100" autocomplete="off" placeholder="RSS link">
+                                    <label for="url-input">RSS link</label>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class='h-100 btn btn-lg btn-primary px-sm-5'>Add</button>
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <button type="submit" class='h-100 btn btn-lg btn-primary px-sm-5'>Add</button>
-                        </div>
-                    </div>
-                </form>
-                <p class="mt-2 mb-0 text-muted">Try: https://ru.hexlet.io/lessons.rss or http://lorem-rss.herokuapp.com/feed</p>
-                <p class="feedback m-0 position-absolute small text-danger"></p>
+                    </form>
+                    <p class="mt-2 mb-0 text-muted">Try: https://ru.hexlet.io/lessons.rss or http://lorem-rss.herokuapp.com/feed</p>
+                    <p class="feedback m-0 position-absolute small text-danger"></p>
+                </div>
             </div>
-        </div>
-    </section>
-    <section class="container-fluid container-xxl p-5">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto order-1" content-id="posts"></div>
-            <div class="col-lg-4 col-md-10 mx-auto order-0 order-lg-1" content-id="feeds"></div>
-        </div>
-    </section>
+        </section>
+        <section class="container-fluid container-xxl p-5">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto order-1" content-id="posts"></div>
+                <div class="col-lg-4 col-md-10 mx-auto order-0 order-lg-1" content-id="feeds"></div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer border-top py-3 mt-5 bg-light">
+        <div class="container-xl"></div>
+    </footer>
 </body>
 
 <script>
