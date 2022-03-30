@@ -54,7 +54,7 @@ const updateReadPosts = (postsElement, readIds) => {
 };
 
 export default (stateInit, elements, i18nextInstance) => {
-  const state = onChange(stateInit, (path, value, oldValue) => {
+  const state = onChange(stateInit, (path, value) => {
     const feedbackElement = elements.feedback;
     const inputElement = elements.input;
     const submitButton = elements.button;
