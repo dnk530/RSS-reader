@@ -100,7 +100,6 @@ export default () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const userInput = formData.get('url');
-      console.log(userInput);
       validateURL(userInput);
     });
   });

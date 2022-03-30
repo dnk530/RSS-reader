@@ -54,7 +54,7 @@ const updateReadPosts = (postsElement, readIds) => {
 };
 
 export default (stateInit, elements, i18nextInstance) => {
-  const state = onChange(stateInit, (path, value) => {
+  const state = onChange(stateInit, (path, value, oldValue) => {
     const feedbackElement = elements.feedback;
     const inputElement = elements.input;
     const submitButton = elements.button;
@@ -95,10 +95,11 @@ export default (stateInit, elements, i18nextInstance) => {
         }
         break;
       case 'form.errors':
-        console.log(value);
-        feedbackElement.classList.remove('text-success');
-        feedbackElement.classList.add('text-danger');
-        feedbackElement.textContent = value.toString();
+        if (value !== undefined && value.length > 0) {
+          feedbackElement.classList.remove('text-success');
+          feedbackElement.classList.add('text-danger');
+          feedbackElement.textContent = value.toString();
+        }
         break;
       case 'feeds': {
         feedsElement.innerHTML = '';
