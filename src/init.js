@@ -10,7 +10,6 @@ const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 const defaultLng = 'ru';
 
 export default () => {
-  console.log('start');
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
     lng: defaultLng,
@@ -18,7 +17,6 @@ export default () => {
     resources,
 
   }).then(() => {
-    console.log('i18next initialized');
     const elements = {
       form: document.querySelector('form'),
       input: document.querySelector('#url-input'),
@@ -32,7 +30,7 @@ export default () => {
         button: document.querySelector('.full-article'),
       },
     };
-    console.log('got elements');
+
     const stateInit = {
       form: {
         state: 'filling',
@@ -46,7 +44,7 @@ export default () => {
     };
 
     const state = initializeWatcher(stateInit, elements, i18nextInstance);
-    console.log('watcher initialized');
+
     setLocale({
       mixed: {
         notOneOf: i18nextInstance.t('duplicate'),
@@ -93,12 +91,10 @@ export default () => {
           }
           state.form.errors = e.errors;
           state.form.state = 'invalid';
-          console.log(JSON.stringify(state, null, 4));
-          console.log(JSON.stringify(e, null, 4));
           // throw new Error(e);
         });
     };
-    console.log('before button');
+
     elements.button.textContent = i18nextInstance.t('add');
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
