@@ -28,7 +28,12 @@ export default () => {
         title: document.querySelector('.modal-title'),
         body: document.querySelector('.modal-body'),
         button: document.querySelector('.full-article'),
+        closeButton: document.querySelector('.modal-footer > button.btn-secondary'),
       },
+      header: document.querySelector('h1'),
+      lead: document.querySelector('p.lead'),
+      example: document.querySelector('.example'),
+      inputLabel: document.querySelector('label'),
     };
 
     const stateInit = {
@@ -91,7 +96,14 @@ export default () => {
         });
     };
 
-    elements.button.textContent = i18nextInstance.t('add');
+    elements.button.textContent = i18nextInstance.t('addButton');
+    elements.modal.button.textContent = i18nextInstance.t('readMoreButton');
+    elements.modal.closeButton.textContent = i18nextInstance.t('closeButton');
+    elements.header.textContent = i18nextInstance.t('header');
+    elements.lead.textContent = i18nextInstance.t('lead');
+    elements.example.textContent = i18nextInstance.t('example');
+    elements.inputLabel.textContent = i18nextInstance.t('inputPlaceholder');
+
     elements.form.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);

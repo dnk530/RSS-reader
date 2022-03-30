@@ -8,7 +8,7 @@ const createCardElement = (title) => {
   return cardElement;
 };
 
-const createPostsList = (value) => {
+const createPostsList = (value, viewButtonCaption) => {
   const ulElement = document.createElement('ul');
   ulElement.classList.add('list-group', 'border-0', 'rounded-0');
 
@@ -17,7 +17,7 @@ const createPostsList = (value) => {
     liElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0');
     liElement.innerHTML = `
           <a href="${link}" class="fw-bold" data-post-id="${postId}" target="_blank" rel="noopener noreferrer">${title}</a>
-          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
+          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId}" data-bs-toggle="modal" data-bs-target="#modal">${viewButtonCaption}</button>`;
     return liElement;
   });
   ulElement.append(...liElements);
@@ -104,15 +104,15 @@ export default (stateInit, elements, i18nextInstance) => {
       case 'feeds': {
         feedsElement.innerHTML = '';
         const feedsListElement = createFeedsList(value);
-        const cardElement = createCardElement('Feeds');
+        const cardElement = createCardElement(i18nextInstance.t('feedsTitle'));
         cardElement.appendChild(feedsListElement);
         feedsElement.appendChild(cardElement);
         break;
       }
       case 'posts': {
         postsElement.innerHTML = '';
-        const cardElement = createCardElement('Posts');
-        const postsListElement = createPostsList(value);
+        const cardElement = createCardElement(i18nextInstance.t('postsTitle'));
+        const postsListElement = createPostsList(value, i18nextInstance.t('viewButton'));
 
         postsListElement.addEventListener('click', (e) => {
           if (e.target.nodeName === 'BUTTON' || e.target.nodeName === 'A') {
