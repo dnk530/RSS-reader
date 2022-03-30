@@ -80,6 +80,7 @@ export default () => {
           checkUpdates(str, 5000, state);
         })
         .catch((e) => {
+          console.log(e);
           console.log(JSON.stringify(e, null, 4));
           if (e.message === 'Network Error') {
             state.form.state = 'download error';
