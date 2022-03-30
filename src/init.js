@@ -80,6 +80,7 @@ export default () => {
           checkUpdates(str, 5000, state);
         })
         .catch((e) => {
+          console.log(JSON.stringify(e, null, 4));
           if (e.message === 'Network Error') {
             state.form.state = 'download error';
             throw new Error(e);
@@ -99,6 +100,7 @@ export default () => {
       e.preventDefault();
       const formData = new FormData(e.target);
       const userInput = formData.get('url');
+      console.log(userInput);
       validateURL(userInput);
     });
   });
