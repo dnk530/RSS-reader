@@ -95,6 +95,7 @@ export default (stateInit, elements, i18nextInstance) => {
         }
         break;
       case 'form.errors':
+        console.log(value);
         feedbackElement.classList.remove('text-success');
         feedbackElement.classList.add('text-danger');
         feedbackElement.textContent = value.toString();
