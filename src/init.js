@@ -13,7 +13,7 @@ export default () => {
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
     lng: defaultLng,
-    debug: true,
+    debug: false,
     resources,
 
   }).then(() => {
