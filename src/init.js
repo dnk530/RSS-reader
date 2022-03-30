@@ -95,7 +95,7 @@ export default () => {
           state.form.state = 'invalid';
           console.log(JSON.stringify(state, null, 4));
           console.log(JSON.stringify(e, null, 4));
-          throw new Error(e);
+          // throw new Error(e);
         });
     };
     console.log('before button');
