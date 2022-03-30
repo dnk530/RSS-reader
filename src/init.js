@@ -82,15 +82,12 @@ export default () => {
         .catch((e) => {
           if (e.message === 'Network Error') {
             state.form.state = 'download error';
-            throw new Error(e);
           }
           if (e.message === 'invalidRss') {
             state.form.state = 'invalid rss';
-            throw new Error(e);
           }
           state.form.errors = e.errors;
           state.form.state = 'invalid';
-          throw new Error(e);
         });
     };
 
