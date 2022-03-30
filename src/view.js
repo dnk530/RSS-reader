@@ -17,7 +17,7 @@ const createPostsList = (value) => {
     liElement.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0');
     liElement.innerHTML = `
           <a href="${link}" class="fw-bold" data-post-id="${postId}" target="_blank" rel="noopener noreferrer">${title}</a>
-          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId}" data-bs-toggle="modal" data-bs-target="#modal">View</button>`;
+          <button type="button" class="btn btn-outline-primary btn-sm" data-post-id="${postId}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
     return liElement;
   });
   ulElement.append(...liElements);
