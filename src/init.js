@@ -10,6 +10,7 @@ const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 const defaultLng = 'ru';
 
 export default () => {
+  console.log('start');
   const i18nextInstance = i18next.createInstance();
   i18nextInstance.init({
     lng: defaultLng,
@@ -17,6 +18,7 @@ export default () => {
     resources,
 
   }).then(() => {
+    console.log('i18next initialized');
     const elements = {
       form: document.querySelector('form'),
       input: document.querySelector('#url-input'),
@@ -80,6 +82,7 @@ export default () => {
           checkUpdates(str, 5000, state);
         })
         .catch((e) => {
+          console.log(JSON.stringify(e, null, 4));
           if (e.message === 'Network Error') {
             state.form.state = 'download error';
             throw new Error(e);
