@@ -63,7 +63,7 @@ export default (stateInit, elements, i18nextInstance) => {
     const { modal } = elements;
     switch (path) {
       case 'form.state':
-        if (value === 'invalid') {
+        if (value === 'invalid url') {
           inputElement.classList.add('is-invalid');
         }
         if (value === 'downloading') {

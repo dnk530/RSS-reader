@@ -1,12 +1,9 @@
 import { string, setLocale } from 'yup';
 import i18next from 'i18next';
-import axios from 'axios';
 import initializeWatcher from './view';
-import parseXML from './parser';
-import checkUpdates from './updater';
 import resources from './locales/index';
+import fetchData from './fetcher';
 
-const proxyUrl = 'https://allorigins.hexlet.app/get?disableCache=true&url=';
 const defaultLng = 'ru';
 
 export default () => {
@@ -66,33 +63,13 @@ export default () => {
         .notOneOf(state.feeds.map((feed) => feed.url));
 
       urlSchema.validate(str)
-        .then(() => {
+        .then((url) => {
           state.form.errors = [];
-          state.form.state = 'downloading';
-          return str;
-        })
-        .then((url) => axios.get(`${proxyUrl}${encodeURIComponent(url)}`))
-        .then((res) => {
-          state.form.state = 'download successful';
-          return parseXML(res.data.contents);
-        })
-        .then(([feed, items]) => {
-          state.feeds.unshift({ ...feed, url: str });
-          state.posts.unshift(...items);
-          return Promise.resolve();
-        })
-        .then(() => {
-          checkUpdates(str, 5000, state);
+          fetchData(url, state);
         })
         .catch((e) => {
-          if (e.message === 'Network Error') {
-            state.form.state = 'download error';
-          }
-          if (e.message === 'invalidRss') {
-            state.form.state = 'invalid rss';
-          }
           state.form.errors = e.errors;
-          state.form.state = 'invalid';
+          state.form.state = 'invalid url';
         });
     };
 
