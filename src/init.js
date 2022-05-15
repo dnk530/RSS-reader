@@ -4,7 +4,7 @@ import initializeWatcher from './view';
 import resources from './locales/index';
 import fetchData from './fetcher';
 
-const defaultLng = 'ru';
+const defaultLng = 'en';
 
 export default () => {
   const i18nextInstance = i18next.createInstance();
